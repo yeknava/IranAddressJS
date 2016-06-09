@@ -1,8 +1,17 @@
 $(document).ready(function(){
     loadprovince();
+    var defaultProvinceVal = $(".province").attr('value');
+    if(defaultProvinceVal) {
+        $(".province").val(defaultProvinceVal);
+        var defaultCityVal = $(".city").attr('value');
+        if(defaultCityVal) {
+            $(".province").closest('div').find('.city').addClass( "temp09120217432class" );
+            loadCity(defaultProvinceVal, defaultCityVal);
+        }
+    }
     $(".province").change(function(){
         $(this).closest('div').find('.city').addClass( "temp09120217432class" );
-        loadCity($(this).val());
+        loadCity($(this).val(), '');
     });
 });
 
@@ -22,7 +31,7 @@ function loadprovince() {
 }
 
 //Load city for selete
-function loadCity(province){
+function loadCity(province, defaultVal){
     $(".temp09120217432class").find('option').remove();
 
     switch (province) {
@@ -126,10 +135,17 @@ function loadCity(province){
 
 
     $.each( selectValues , function (key, value) {
-        $(".temp09120217432class")
-            .append($("<option></option>")
-                .attr("value", key)
-                .text(value));
+        if(value == defaultVal) {
+            $(".temp09120217432class")
+                .append($("<option selected></option>")
+                    .attr("value", key)
+                    .text(value));
+        } else {
+            $(".temp09120217432class")
+                .append($("<option></option>")
+                    .attr("value", key)
+                    .text(value));
+        }
     });
     $(".temp09120217432class").removeClass("temp09120217432class");
 }
